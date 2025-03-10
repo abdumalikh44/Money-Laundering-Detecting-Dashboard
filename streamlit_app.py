@@ -59,8 +59,11 @@ if uploaded_file is not None:
     if 'Date' in transaction_data.columns and not laundering.empty:
         st.subheader("Suspicious Transactions Over Time")
         
+        laundering = laundering.dropna(subset=['Date'])  # Remove NaN in 'Date'
+        laundering['Date'] = pd.to_datetime(laandering['Date'], errors='coerce')  # Convert to datetime
+        laundering = laundering.dropna(subset=['Date'])  # Remove remaining NaN
+        
         fig, ax = plt.subplots()
-        laundering['Date'] = pd.to_datetime(laundering['Date'])  # Ensure Date is in datetime format
         laundering['Date'].value_counts().sort_index().plot(kind='bar', color='#bb5b0c', ax=ax)
 
         # Annotate each bar with its count
@@ -78,10 +81,25 @@ if uploaded_file is not None:
     # Prepare features for prediction
     feature_columns = transaction_data.columns.drop('Is Laundering', errors='ignore')
     user_data = transaction_data[feature_columns]
-    predictions = model.predict(user_data)
 
-    # Add predictions to the dataframe
-    transaction_data['Prediction'] = ["Suspicious" if pred == 1 else "Legal" for pred in predictions]
+    # Handle missing values
+    user_data.fillna("Unknown", inplace=True)
+
+    # Ensure user_data has all necessary columns
+    missing_cols = set(model.feature_name_) - set(user_data.columns)
+    for col in missing_cols:
+        user_data[col] = 0  # Add missing columns with default values
+
+    # Ensure column order matches the model
+    user_data = user_data[model.feature_name_]
+
+    # Make predictions safely
+    try:
+        predictions = model.predict(user_data)
+        transaction_data['Prediction'] = ["Suspicious" if pred == 1 else "Legal" for pred in predictions]
+    except Exception as e:
+        st.error(f"Prediction error: {e}")
+        predictions = []
 
     # Display prediction results
     st.subheader("Prediction Results")
