@@ -1,6 +1,6 @@
 import pandas as pd
 import streamlit as st
-import pickle
+import joblib  # Change from pickle to joblib
 import matplotlib.pyplot as plt
 
 # Streamlit UI Configuration
@@ -44,7 +44,7 @@ if uploaded_file is not None:
     st.write(f"**Total Legal Transactions:** {count_legit}")
     st.write(f"**Total Suspicious Transactions:** {count_laundering}")
 
-    # Visualization
+    # Pie Chart Visualization
     st.subheader("Transaction Distribution")
     labels = ['Legal', 'Suspicious']
     sizes = [count_legit, count_laundering]
@@ -55,9 +55,25 @@ if uploaded_file is not None:
     ax.axis('equal')  # Ensures a circular pie chart
     st.pyplot(fig)
 
+    # **Bar Chart for Suspicious Transactions by Date**
+    if 'Date' in transaction_data.columns and not laundering.empty:
+        st.subheader("Suspicious Transactions Over Time")
+        
+        fig, ax = plt.subplots()
+        laundering['Date'] = pd.to_datetime(laundering['Date'])  # Ensure Date is in datetime format
+        laundering['Date'].value_counts().sort_index().plot(kind='bar', color='#bb5b0c', ax=ax)
+
+        # Annotate each bar with its count
+        for p in ax.patches:
+            ax.annotate(f'{p.get_height()}',
+                        (p.get_x() + p.get_width() / 2., p.get_height()), 
+                        ha='center', va='baseline', fontsize=12, color='#ff7200', fontweight='bold',  
+                        xytext=(0, 3), textcoords='offset points')
+
+        st.pyplot(fig)  # Display bar chart
+
     # Load the pre-trained LightGBM model
-    with open("lgbm_pipeline.pkl", "rb") as file:
-        model = pickle.load(file)
+    model = joblib.load("lightgbm_model.joblib")  # Using joblib
 
     # Prepare features for prediction
     feature_columns = transaction_data.columns.drop('Is Laundering', errors='ignore')
