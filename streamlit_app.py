@@ -41,12 +41,12 @@ if uploaded_file is not None:
     count_laundering = laundering.shape[0]
 
     # Display transaction counts
-    st.write(f"**Total Legitimate Transactions:** {count_legit}")
+    st.write(f"**Total Legal Transactions:** {count_legit}")
     st.write(f"**Total Suspicious Transactions:** {count_laundering}")
 
     # Visualization
     st.subheader("Transaction Distribution")
-    labels = ['Legitimate', 'Suspicious']
+    labels = ['Legal', 'Suspicious']
     sizes = [count_legit, count_laundering]
     colors = ['#4CAF50', '#FF5733']
     
@@ -65,7 +65,7 @@ if uploaded_file is not None:
     predictions = model.predict(user_data)
 
     # Add predictions to the dataframe
-    transaction_data['Prediction'] = ["Suspicious" if pred == 1 else "Legitimate" for pred in predictions]
+    transaction_data['Prediction'] = ["Suspicious" if pred == 1 else "Legal" for pred in predictions]
 
     # Display prediction results
     st.subheader("Prediction Results")
@@ -74,7 +74,7 @@ if uploaded_file is not None:
 
     # Count the predictions
     prediction_count = result_df['Prediction'].value_counts()
-    st.write(f"**Predicted Legitimate Transactions:** {prediction_count.get('Legitimate', 0)}")
+    st.write(f"**Predicted Legal Transactions:** {prediction_count.get('Legal', 0)}")
     st.write(f"**Predicted Suspicious Transactions:** {prediction_count.get('Suspicious', 0)}")
 
 else:
