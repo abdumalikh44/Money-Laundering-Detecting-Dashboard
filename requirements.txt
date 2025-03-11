@@ -4,3 +4,4 @@ lightgbm
 joblib
 matplotlib
 seaborn
+scikit-learn
