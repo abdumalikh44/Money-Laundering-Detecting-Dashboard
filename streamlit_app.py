@@ -4,6 +4,15 @@ import lightgbm as lgb
 import joblib
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline
+
+# Define categorical columns (ensure these match the training data)
+cat = ['From Bank', 'Account', 'To Bank', 'Account.1', 'Amount Received', 'Receiving Currency', 'Payment Currency', 'Date']  # Replace with actual categorical column names
+
+ohe = Pipeline([('Encoder', OneHotEncoder(drop='first', handle_unknown='ignore'))])
+transformer = ColumnTransformer([('One Hot Encoding', ohe, cat)])
 
 # Load trained model
 @st.cache_resource
@@ -13,7 +22,8 @@ def load_model():
 
 # Predict function
 def predict(data, model):
-    return model.predict(data)
+    transformed_data = transformer.transform(data)  # Apply the same preprocessing as training
+    return model.predict(transformed_data)
 
 # Streamlit App
 st.title("Money Laundering Detection Dashboard")
@@ -27,6 +37,9 @@ if uploaded_file:
     
     # Load Model
     model = load_model()
+    
+    # Fit transformer on uploaded data (only if necessary)
+    transformer.fit(df)
     
     # Predict
     if st.button("Detect Money Laundering"):
