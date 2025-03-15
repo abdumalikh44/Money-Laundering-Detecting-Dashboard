@@ -3,5 +3,3 @@ pandas
 lightgbm
 joblib
 matplotlib
-seaborn
-scikit-learn
