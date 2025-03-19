@@ -20,8 +20,13 @@ if uploaded_file is not None:
     st.write(df.head())
 
     # Predict
+<<<<<<< HEAD
     if st.button("Detect Money Laundering"):
         predictions = model.predict(df)  # No need for preprocessing (already in Pipeline)
+=======
+    if st.button("Detect Money Laundering")
+        predictions = predict(df, model)
+>>>>>>> b319800 (update)
         df["Prediction"] = predictions
 
         # Display results
