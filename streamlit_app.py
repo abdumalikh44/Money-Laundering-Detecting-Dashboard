@@ -35,7 +35,8 @@ if submitted:
         "Payment Currency": ["US Dollar"],
         "Payment Format": [payment_format],
         "Amount Received": [amount_received],
-        "Amount Paid": [amount_paid]
+        "Amount Paid": [amount_paid],
+        "Account.1": [account]  # **Temporary Fix for Missing Column**
     })
 
     # Predict using the trained model
