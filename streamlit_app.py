@@ -51,13 +51,13 @@ if submitted:
 
     # Ensure correct data types
     input_data = input_data.astype({
-        "From Bank": int,
-        "To Bank": int,
+        "From Bank": str,
+        "To Bank": str,
         "Account": str,
         "Account.1": float,
         "Amount Received": float,
         "Amount Paid": float,
-        "Date": float  # Unix timestamp
+        "Date": datetime  
     })
 
     # Make a prediction using the trained model
