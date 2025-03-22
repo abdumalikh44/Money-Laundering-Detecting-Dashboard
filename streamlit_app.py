@@ -57,7 +57,7 @@ if submitted:
         "Account.1": float,
         "Amount Received": float,
         "Amount Paid": float,
-        "Date": datetime  
+        "Date": str  
     })
 
     # Make a prediction using the trained model
