@@ -1,4 +1,4 @@
-
+from datetime import datetime, timedelta
 
 import streamlit as st
 import joblib
@@ -19,7 +19,7 @@ def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
     output = "HI-Small_Trans.csv"
     gdown.download(url, output, quiet=False, fuzzy=True)
-    df = pd.read_csv(output, chunksize=1000)
+    df = pd.read_csv(output)
     return df
 
 aml_data = get_txn_data()
@@ -56,8 +56,6 @@ with st.sidebar.form("transaction_form"):
     # Default currency (US Dollar)
     receiving_currency = "US Dollar"
     payment_currency = "US Dollar"
-
-    
 
     submitted = st.form_submit_button("Detect Money Laundering")
 
