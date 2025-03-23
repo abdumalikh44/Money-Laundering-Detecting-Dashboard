@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+
 
 import streamlit as st
 import joblib
@@ -19,7 +19,7 @@ def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
     output = "HI-Small_Trans.csv"
     gdown.download(url, output, quiet=False, fuzzy=True)
-    df = pd.read_csv(output)
+    df = pd.read_csv(output, chunksize=1000)
     return df
 
 aml_data = get_txn_data()
@@ -27,6 +27,15 @@ aml_data = get_txn_data()
 new_dfs, code = spreadsheet(aml_data)
 code = code if code else "# Edit the spreadsheet above to generate code"
 st.code(code)
+
+def clear_mito_backend_cache():
+    _get_mito_backend.clear()
+
+    # Function to cache the last execution time - so we can clear periodically
+    @st.cache_resource
+    def get_cached_time():
+        # Initialize with a dictionary to store the last execution time
+        return {"last_executed_time": None}
 
 st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
 # Form for transaction input
