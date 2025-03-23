@@ -35,6 +35,20 @@ def clear_mito_backend_cache():
         # Initialize with a dictionary to store the last execution time
         return {"last_executed_time": None}
 
+def try_clear_cache():
+
+    # How often to clear the cache
+    CLEAR_DELTA = timedelta(hours=12)
+
+    current_time = datetime.now()
+    cached_time = get_cached_time()
+
+    # Check if the current time is different from the cached last execution time
+    if cached_time["last_executed_time"] is None or cached_time["last_executed_time"] + CLEAR_DELTA < current_time:
+        clear_mito_backend_cache()
+        cached_time["last_executed_time"] = current_time
+
+try_clear_cache()
 
 
 st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
