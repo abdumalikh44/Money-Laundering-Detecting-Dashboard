@@ -2,6 +2,9 @@ import streamlit as st
 import joblib
 import pandas as pd
 import datetime
+import gdown
+from mitosheet.streamlit.v1 import spreadsheet
+from mitosheet.streamlit.v1.spreadsheet import _get_mito_backend
 
 # Load the trained model (Pipeline with preprocessing)
 model = joblib.load("lightgbm_pipeline.joblib")
@@ -9,8 +12,32 @@ model = joblib.load("lightgbm_pipeline.joblib")
 # Streamlit App
 st.title("Money Laundering Detection Dashboard")
 
-st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
+@st.cache_data
+def get_txn_data():
+    url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
+    output = "HI-Small_Trans.csv"
+    gdown.download(url, output, quiet=False)
+    df = pd.read_csv(output)
+    return df
 
+aml_data = get_txn_data()
+
+new_dfs, code = spreadsheet(aml_data)
+code = code if code else "# Edit the spreadsheet above to generate code"
+st.code(code)
+
+def clear_mito_backend_cache():
+    _get_mito_backend.clear()
+
+    # Function to cache the last execution time - so we can clear periodically
+    @st.cache_resource
+    def get_cached_time():
+        # Initialize with a dictionary to store the last execution time
+        return {"last_executed_time": None}
+
+
+
+st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
 # Form for transaction input
 with st.sidebar.form("transaction_form"):
     st.header("Transaction Details")
