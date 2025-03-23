@@ -15,10 +15,13 @@ st.sidebar.write("Enter transaction details to detect whether it is suspicious."
 with st.sidebar.form("transaction_form"):
     st.header("Transaction Details")
 
+    # Auto-fill today's date
+    transaction_date = st.date_input("Transaction Date", datetime.date.today())
+
     from_bank = st.number_input("From Bank ID", min_value=0, step=1)
-    account = st.text_input("Account Number")
+    account = st.text_input("Account Paid")
     to_bank = st.number_input("To Bank ID", min_value=0, step=1)
-    account_1 = st.number_input("Account.1", min_value=0.0, step=0.01) 
+    account_1 = st.number_input("Account Sent") 
     payment_format = st.selectbox("Payment Format", ["ACH", "Credit Card", "Cheque", "Reinvestment", "Cash"])
     amount_received = st.number_input("Amount Received", min_value=0.01, step=0.01)
     amount_paid = st.number_input("Amount Paid", min_value=0.01, step=0.01)
@@ -27,8 +30,7 @@ with st.sidebar.form("transaction_form"):
     receiving_currency = "US Dollar"
     payment_currency = "US Dollar"
 
-    # Auto-fill today's date
-    transaction_date = st.date_input("Transaction Date", datetime.date.today())
+    
 
     submitted = st.form_submit_button("Detect Money Laundering")
 
@@ -55,7 +57,7 @@ if submitted:
         "From Bank": str,
         "To Bank": str,
         "Account": str,
-        "Account.1": float,
+        "Account.1": str,
         "Amount Received": float,
         "Amount Paid": float,
         "Date": str  
