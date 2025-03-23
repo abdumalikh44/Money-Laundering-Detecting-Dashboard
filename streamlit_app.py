@@ -16,7 +16,7 @@ st.title("Money Laundering Detection Dashboard")
 def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
     output = "HI-Small_Trans.csv"
-    gdown.download(url, output, quiet=False)
+    gdown.download(url, output, quiet=False, fuzzy=True)
     df = pd.read_csv(output)
     return df
 
