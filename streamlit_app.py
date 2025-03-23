@@ -67,6 +67,6 @@ if submitted:
     # Display prediction result
     st.sidebar.write("### Prediction Result:")
     if prediction[0] == 1:
-        st.error("🚨 This transaction is **suspicious** and may indicate money laundering!")
+        st.sidebar.error("🚨 This transaction is **suspicious** and may indicate money laundering!")
     else:
-        st.success("✅ This transaction is **not suspicious**.")
+        st.sidebar.success("✅ This transaction is **not suspicious**.")
