@@ -9,14 +9,16 @@ model = joblib.load("lightgbm_pipeline.joblib")
 # Streamlit App
 st.title("Money Laundering Detection Dashboard")
 
-st.write("Enter transaction details to detect whether it is suspicious.")
+st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
 
 # Form for transaction input
-with st.form("transaction_form"):
+with st.sidebar.form("transaction_form"):
+    st.header("Transaction Details")
+
     from_bank = st.number_input("From Bank ID", min_value=0, step=1)
     account = st.text_input("Account Number")
     to_bank = st.number_input("To Bank ID", min_value=0, step=1)
-    account_1 = st.number_input("Account.1", min_value=0.0, step=0.01)  # Now it's an actual input!
+    account_1 = st.number_input("Account.1", min_value=0.0, step=0.01) 
     payment_format = st.selectbox("Payment Format", ["ACH", "Credit Card", "Cheque", "Reinvestment", "Cash"])
     amount_received = st.number_input("Amount Received", min_value=0.01, step=0.01)
     amount_paid = st.number_input("Amount Paid", min_value=0.01, step=0.01)
@@ -32,7 +34,6 @@ with st.form("transaction_form"):
 
 # When the button is pressed, make a prediction
 if submitted:
-    # Convert date to numeric (Unix timestamp)
     transaction_date_numeric = pd.to_datetime(transaction_date).timestamp()
 
     # Create DataFrame with user input
@@ -40,7 +41,7 @@ if submitted:
         "From Bank": [from_bank],
         "Account": [account],
         "To Bank": [to_bank],
-        "Account.1": [account_1],  # Now using actual user input
+        "Account.1": [account_1], 
         "Amount Received": [amount_received],
         "Receiving Currency": [receiving_currency],
         "Amount Paid": [amount_paid],
@@ -64,7 +65,7 @@ if submitted:
     prediction = model.predict(input_data)
 
     # Display prediction result
-    st.write("### Prediction Result:")
+    st.sidebar.write("### Prediction Result:")
     if prediction[0] == 1:
         st.error("🚨 This transaction is **suspicious** and may indicate money laundering!")
     else:
