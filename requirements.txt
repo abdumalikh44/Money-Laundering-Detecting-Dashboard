@@ -7,3 +7,5 @@ joblib
 mitosheet
 gdown
 datetime
+pyecharts
+streamlit-echarts

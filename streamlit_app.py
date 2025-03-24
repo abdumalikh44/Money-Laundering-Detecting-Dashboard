@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+import random
 import streamlit as st
 import joblib
 import pandas as pd
@@ -7,6 +8,10 @@ import datetime
 import gdown
 from mitosheet.streamlit.v1 import spreadsheet
 from mitosheet.streamlit.v1.spreadsheet import _get_mito_backend
+from pyecharts.charts import Bar
+from pyecharts import options as opts
+from streamlit_echarts import st_pyecharts
+
 
 # Load the trained model (Pipeline with preprocessing)
 model = joblib.load("lightgbm_pipeline.joblib")
@@ -34,6 +39,29 @@ def clear_mito_backend_cache():
     def get_cached_time():
         # Initialize with a dictionary to store the last execution time
         return {"last_executed_time": None}
+
+# Extract relevant transaction data
+payment_counts = aml_data["Payment Format"].value_counts()
+payment_formats = payment_counts.index.tolist()
+transaction_counts = payment_counts.values.tolist()
+
+# Create Bar chart
+b = (
+    Bar()
+    .add_xaxis(payment_formats)
+    .add_yaxis("Transaction Count", transaction_counts)
+    .set_global_opts(
+        title_opts=opts.TitleOpts(
+            title="Transaction Distribution by Payment Format",
+            subtitle="Based on dataset analysis"
+        ),
+        toolbox_opts=opts.ToolboxOpts(),
+    )
+)
+
+st_pyecharts(b, key="echarts")
+st.button("Refresh Chart")
+
 
 st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
 # Form for transaction input
