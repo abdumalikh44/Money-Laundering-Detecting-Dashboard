@@ -24,10 +24,6 @@ def get_txn_data():
 
 aml_data = get_txn_data()
 
-new_dfs, code = spreadsheet(aml_data)
-code = code if code else "# Edit the spreadsheet above to generate code"
-st.code(code)
-
 def clear_mito_backend_cache():
     _get_mito_backend.clear()
 
