@@ -48,7 +48,7 @@ with st.sidebar.form("transaction_form"):
     from_bank = st.number_input("From Bank ID", min_value=0, step=1)
     account = st.text_input("Account Paid")
     to_bank = st.number_input("To Bank ID", min_value=0, step=1)
-    account_1 = st.number_input("Account Sent") 
+    account_1 = st.text_input("Account Sent") 
     payment_format = st.selectbox("Payment Format", ["ACH", "Credit Card", "Cheque", "Reinvestment", "Cash"])
     amount_received = st.number_input("Amount Received", min_value=0.01, step=0.01)
     amount_paid = st.number_input("Amount Paid", min_value=0.01, step=0.01)
