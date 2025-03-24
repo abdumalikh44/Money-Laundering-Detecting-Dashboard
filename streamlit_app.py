@@ -19,7 +19,7 @@ def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
     output = "HI-Small_Trans.csv"
     gdown.download(url, output, quiet=False, fuzzy=True)
-    df = pd.read_csv(output, nrows=100000)
+    df = pd.read_csv(output, nrows=500000)
     return df
 
 aml_data = get_txn_data()
@@ -45,10 +45,10 @@ with st.sidebar.form("transaction_form"):
     # Auto-fill today's date
     transaction_date = st.date_input("Transaction Date", datetime.date.today())
 
-    from_bank = st.number_input("From Bank ID", min_value=0, step=1)
-    account = st.number_input("Account Paid")
-    to_bank = st.number_input("To Bank ID", min_value=0, step=1)
-    account_1 = st.number_input("Account Sent") 
+    from_bank = st.number_input("From Bank ID", min_value=0)
+    account = st.number_input("Account Paid", min_value=0)
+    to_bank = st.number_input("To Bank ID", min_value=0)
+    account_1 = st.number_input("Account Sent", min_value=0) 
     payment_format = st.selectbox("Payment Format", ["ACH", "Credit Card", "Cheque", "Reinvestment", "Cash"])
     amount_received = st.number_input("Amount Received", min_value=0.01, step=0.01)
     amount_paid = st.number_input("Amount Paid", min_value=0.01, step=0.01)
