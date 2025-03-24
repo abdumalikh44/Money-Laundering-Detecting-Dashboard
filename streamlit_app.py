@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-import random
 import streamlit as st
 import joblib
 import pandas as pd
@@ -49,18 +48,25 @@ transaction_counts = payment_counts.values.tolist()
 b = (
     Bar()
     .add_xaxis(payment_formats)
-    .add_yaxis("Transaction Count", transaction_counts)
+    .add_yaxis(
+        "Transaction Count", 
+        transaction_counts,
+        label_opts=opts.LabelOpts(position="top")  # Ensuring labels are positioned correctly
+    )
     .set_global_opts(
         title_opts=opts.TitleOpts(
             title="Transaction Distribution by Payment Format",
             subtitle="Based on dataset analysis"
         ),
         toolbox_opts=opts.ToolboxOpts(),
+        legend_opts=opts.LegendOpts(pos_top="10%"),  # Fix overlapping legend
+        xaxis_opts=opts.AxisOpts(
+            axislabel_opts=opts.LabelOpts(rotate=30)  # Rotate x-axis labels to avoid overcrowding
+        ),
     )
 )
 
 st_pyecharts(b, key="echarts")
-st.button("Refresh Chart")
 
 
 st.sidebar.write("Enter transaction details to detect whether it is suspicious.")
