@@ -24,6 +24,8 @@ def get_txn_data():
 
 aml_data = get_txn_data()
 
+new_dfs, code = spreadsheet(aml_data)
+
 def clear_mito_backend_cache():
     _get_mito_backend.clear()
 
