@@ -24,18 +24,14 @@ def get_txn_data():
 
 df = get_txn_data()
 
-# Ensure 'payment' column exists before using multiselect
-if "payment" in df.columns:
-    Payment = st.multiselect(
+Payment = st.multiselect(
         "Payment",
         df["payment"].unique(),
         ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
-    )
+)
 
-    # Filter data based on selected payments
-    df_filtered = df[df["Payment"].isin(Payment)]
+# Filter data based on selected payments
+df_filtered = df[df["Payment"].isin(Payment)]
 
-    # Display the data as a table
-    st.dataframe(df_filtered, use_container_width=True)
-else:
-    st.error("Column 'payment' not found in the dataset. Please check the dataset structure.")
+# Display the data as a table
+st.dataframe(df_filtered, use_container_width=True)
