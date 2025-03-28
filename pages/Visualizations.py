@@ -24,7 +24,7 @@ def get_txn_data():
 df = get_txn_data()
 
 # Group data by Date and sum the transaction amounts
-df_grouped = df.groupby(df["Timestamp"].dt.date)["Amount"].sum().reset_index()
+df_grouped = df.groupby(df["Timestamp"].dt.date)["Amount Paid"].sum().reset_index()
 
 # Convert data to lists for pyecharts
 dates = df_grouped["Timestamp"].astype(str).tolist()  # Convert dates to string for plotting
