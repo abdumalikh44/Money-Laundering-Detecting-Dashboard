@@ -26,7 +26,7 @@ df = get_txn_data()
 
 Payment = st.multiselect(
         "Payment",
-        df["payment"].unique(),
+        df["Payment"].unique(),
         ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
 )
 
