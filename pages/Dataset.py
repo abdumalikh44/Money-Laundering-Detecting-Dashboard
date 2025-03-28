@@ -31,13 +31,5 @@ if "Payment Format" in df.columns:
         df["Payment Format"].unique(),
         default=["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
     )
-
-    # Add a button to apply the filter manually
-    if st.button("Apply Filter"):
-        df_filtered = df[df["Payment Format"].isin(Payment)]
-        st.dataframe(df_filtered, use_container_width=True)
-    else:
-        st.write("Click 'Apply Filter' to filter the dataset.")
-
 else:
     st.error("Column 'Payment Format' not found in the dataset. Please check the dataset structure.")
