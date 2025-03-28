@@ -25,10 +25,10 @@ def get_txn_data():
 df = get_txn_data()
 
 # Ensure 'payment' column exists before using multiselect
-if "Payment" in df.columns:
+if "payment" in df.columns:
     Payment = st.multiselect(
         "Payment",
-        df["Payment"].unique(),
+        df["payment"].unique(),
         ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
     )
 
