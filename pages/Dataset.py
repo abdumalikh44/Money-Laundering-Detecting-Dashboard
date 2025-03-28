@@ -29,7 +29,7 @@ if "Payment Format" in df.columns:
     Payment = st.multiselect(
         "Payment Format",
         df["Payment Format"].unique(),
-        ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
+        default=["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
     )
 
     # Filter data based on selected payments
