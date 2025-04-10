@@ -15,7 +15,7 @@ def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
     output = "HI-Small_Trans.csv"
     gdown.download(url, output, quiet=False, fuzzy=True)
-    df = pd.read_csv(output, nrows=10000)
+    df = pd.read_csv(output, nrows=100000)
 
     # Ensure 'Timestamp' column is in datetime format
     df["Timestamp"] = pd.to_datetime(df["Timestamp"])
