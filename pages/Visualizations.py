@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import gdown
+from pyecharts.charts import Bar
 from pyecharts.charts import Line
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
