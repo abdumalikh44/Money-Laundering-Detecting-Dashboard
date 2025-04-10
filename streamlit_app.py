@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Page Title
-st.title("Welcome to the Money Laundering Detection Dashboard")
+st.title("Welcome to the interactive dashboard for my final thesis project! 👋")
 
 # Info box with link to GitHub issues
 st.info(
@@ -15,9 +15,8 @@ st.info(
 # Introduction / Welcome message
 st.write(
     """
-    ## Skripsi Dashboard
+    ## Money Laundering Detection Dashboard
 
-    Welcome to the interactive dashboard for my final thesis project! 👋  
     This app showcases key visualizations and insights from synthetic financial transaction data,  
     focusing on identifying potential money laundering patterns. 💸
 
