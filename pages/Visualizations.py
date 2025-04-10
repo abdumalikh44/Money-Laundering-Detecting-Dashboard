@@ -26,7 +26,7 @@ def get_txn_data():
 df = get_txn_data()
 
 # Group transactions by day
-df_grouped = df.groupby(df["Timestamp"].dt.floor("D"))["Amount Paid"].count().reset_index()
+df_grouped = df.groupby(df["Timestamp"].dt.floor("D"))["Amount Paid"].sum().reset_index()
 
 # Convert data to lists for visualization
 dates = df_grouped["Timestamp"].dt.strftime("%Y-%m-%d").tolist()  # Format date as YYYY-MM-DD
