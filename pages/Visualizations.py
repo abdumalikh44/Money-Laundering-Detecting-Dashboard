@@ -61,7 +61,7 @@ bar_chart = (
     .add_xaxis(dates)
     .add_yaxis("Number of Transactions", counts, color="#FFBF00")
     .set_global_opts(
-        title_opts=opts.TitleOpts(title="Top 5 Transaction Dates", subtitle="Most Frequent Transaction Days"),
+        title_opts=opts.TitleOpts(title="Number Transactions per Day"),
         xaxis_opts=opts.AxisOpts(name="Date"),
         yaxis_opts=opts.AxisOpts(name="Transaction Count"),
         toolbox_opts=opts.ToolboxOpts(),  # Add toolbox for interactions
