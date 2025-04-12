@@ -1,6 +1,7 @@
 streamlit
 pandas
 numpy
+skicit-learn
 lightgbm
 joblib
 gdown
