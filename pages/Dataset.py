@@ -24,6 +24,20 @@ def get_txn_data():
 
 df = get_txn_data()
 
+# Convert 'Timestamp' to datetime format
+df["Timestamp"] = pd.to_datetime(df["Timestamp"])
+
+# Create a new column with only the date
+df["Date"] = df["Timestamp"].dt.date
+
+# Add a date picker to filter by transaction date
+min_date = df["Date"].min()
+max_date = df["Date"].max()
+selected_date = st.date_input("Filter by Date", min_value=min_date, max_value=max_date, value=min_date)
+
+# Apply the date filter
+df = df[df["Date"] == selected_date]
+
 # Ensure 'payment' column exists before using multiselect
 if "Payment Format" in df.columns:
     Payment = st.multiselect(
@@ -36,6 +50,6 @@ if "Payment Format" in df.columns:
     df_filtered = df[df["Payment Format"].isin(Payment)]
 
     # Display the data as a table
-    st.dataframe(df_filtered, use_container_width=True)
+    st.dataframe(df_filtered.drop(columns=["Timestamp"]), use_container_width=True)
 else:
     st.error("Column 'payment' not found in the dataset. Please check the dataset structure.")
