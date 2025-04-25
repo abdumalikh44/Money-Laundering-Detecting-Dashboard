@@ -26,9 +26,17 @@ df = get_txn_data()
 
 # Convert 'Timestamp' to datetime format
 df["Timestamp"] = pd.to_datetime(df["Timestamp"])
-
-# Create a new column with only the date
 df["Date"] = df["Timestamp"].dt.date
+
+# === Filter by 'Is Laundering' first ===
+if "Is Laundering" in df.columns:
+    laundering_options = st.multiselect(
+        "Filter by 'Is Laundering' label",
+        options=sorted(df["Is Laundering"].unique()),
+        default=sorted(df["Is Laundering"].unique()),
+        format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
+    )
+    df = df[df["Is Laundering"].isin(laundering_options)]
 
 # Add a date picker to filter by transaction date
 min_date = df["Date"].min()
@@ -49,16 +57,9 @@ if "Payment Format" in df.columns:
     # Filter data based on selected payments
     df = df[df["Payment Format"].isin(Payment)]
     st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
-
-if "Is Laundering" in df.columns:
-    laundering_options = st.multiselect(
-        "Filter by 'Is Laundering' label",
-        options=sorted(df["Is Laundering"].unique()),
-        default=sorted(df["Is Laundering"].unique()),
-        format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
-    )
-    df = df[df["Is Laundering"].isin(laundering_options)]
 else:
-    st.error("Column 'Is Laundering' not found in the dataset. Please check the dataset structure.")
+    st.error("Column 'Payment Format' not found in the dataset. Please check the dataset structure.")
+
+
 
 
