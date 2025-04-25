@@ -39,8 +39,6 @@ date_bar_chart = (
     .add_xaxis(date_labels)
     .add_yaxis("Number of Transactions", date_counts, color="#FFBF00")
     .set_global_opts(
-        xaxis_opts=opts.AxisOpts(name="Date"),
-        yaxis_opts=opts.AxisOpts(name="Transaction Count"),
         toolbox_opts=opts.ToolboxOpts(),
     )
 )
@@ -63,8 +61,6 @@ if "Payment Format" in df.columns:
         .add_xaxis(payment_labels)
         .add_yaxis("Jumlah Transaksi", payment_values, color="#00BFFF")
         .set_global_opts(
-            xaxis_opts=opts.AxisOpts(name="Payment Format", axislabel_opts=opts.LabelOpts(rotate=30)),
-            yaxis_opts=opts.AxisOpts(name="Jumlah"),
             toolbox_opts=opts.ToolboxOpts(),
         )
     )
