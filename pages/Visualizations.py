@@ -25,13 +25,6 @@ def get_txn_data():
 
 df = get_txn_data()
 
-# Group transactions by day
-df_grouped = df.groupby(df["Timestamp"].dt.floor("D"))["Amount Paid"].sum().reset_index()
-
-# Convert data to lists for visualization
-dates = df_grouped["Timestamp"].dt.strftime("%Y-%m-%d").tolist()  # Format date as YYYY-MM-DD
-amounts = df_grouped["Amount Paid"].tolist()
-
 # Count transactions per day and get the top 5 most frequent dates
 top_dates = df["Timestamp"].dt.date.value_counts().head(5).reset_index()
 top_dates.columns = ["Timestamp", "Transaction Count"]
