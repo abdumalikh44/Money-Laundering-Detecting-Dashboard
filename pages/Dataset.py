@@ -49,7 +49,6 @@ if "Payment Format" in df.columns:
     # Filter data based on selected payments
     df = df[df["Payment Format"].isin(Payment)]
 
-# ✅ Add a filter for the "Is Laundering" column
 if "Is Laundering" in df.columns:
     laundering_options = st.multiselect(
         "Filter by 'Is Laundering' label",
