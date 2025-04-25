@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import gdown
 from pyecharts.charts import Bar
-from pyecharts.charts import Line
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
 
@@ -10,6 +9,9 @@ from streamlit_echarts import st_pyecharts
 st.set_page_config(page_title="AML Dashboard", page_icon="📊")
 st.title("📊 AML Data Visualization")
 
+# ===========================
+# Load Data with Caching
+# ===========================
 @st.cache_data
 def get_txn_data():
     url = "https://drive.google.com/file/d/1kUK0voPeSkHvAQ57nqC7xXvQ4XjL6r3K/view?usp=drive_link"
@@ -17,34 +19,59 @@ def get_txn_data():
     gdown.download(url, output, quiet=False, fuzzy=True)
     df = pd.read_csv(output, nrows=100000)
 
-    # Ensure 'Timestamp' column is in datetime format
-    df["Timestamp"] = pd.to_datetime(df["Timestamp"])
-
-
+    # Convert timestamp column to datetime
+    df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
     return df
 
 df = get_txn_data()
 
-# Count transactions per day and get the top 5 most frequent dates
+# ===========================
+# Chart: Top 5 Most Active Dates
+# ===========================
 top_dates = df["Timestamp"].dt.date.value_counts().head(5).reset_index()
-top_dates.columns = ["Timestamp", "Transaction Count"]
+top_dates.columns = ["Date", "Transaction Count"]
 
-# Convert data to lists for visualization
-dates = top_dates["Timestamp"].astype(str).tolist()  # Convert dates to string format
-counts = top_dates["Transaction Count"].tolist()
+date_labels = top_dates["Date"].astype(str).tolist()
+date_counts = top_dates["Transaction Count"].tolist()
 
-# Create a pyecharts bar chart
-bar_chart = (
+date_bar_chart = (
     Bar()
-    .add_xaxis(dates)
-    .add_yaxis("Number of Transactions", counts, color="#FFBF00")
+    .add_xaxis(date_labels)
+    .add_yaxis("Number of Transactions", date_counts, color="#FFBF00")
     .set_global_opts(
-        title_opts=opts.TitleOpts(title="Number Transactions per Day"),
+        title_opts=opts.TitleOpts(title="Number of Transactions per Day"),
         xaxis_opts=opts.AxisOpts(name="Date"),
         yaxis_opts=opts.AxisOpts(name="Transaction Count"),
-        toolbox_opts=opts.ToolboxOpts(),  # Add toolbox for interactions
+        toolbox_opts=opts.ToolboxOpts(),
     )
 )
 
-# Display the chart in Streamlit
-st_pyecharts(bar_chart, key="bar_chart")
+st.subheader("📅 Jumlah Transaksi per Hari (Top 5)")
+st_pyecharts(date_bar_chart, key="bar_chart")
+
+# ===========================
+# Chart: Transactions per Payment Format
+# ===========================
+if "Payment Format" in df.columns:
+    payment_counts = df["Payment Format"].value_counts().reset_index()
+    payment_counts.columns = ["Payment Format", "Count"]
+
+    payment_labels = payment_counts["Payment Format"].tolist()
+    payment_values = payment_counts["Count"].tolist()
+
+    payment_bar_chart = (
+        Bar()
+        .add_xaxis(payment_labels)
+        .add_yaxis("Jumlah Transaksi", payment_values, color="#00BFFF")
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="Jumlah Transaksi per Payment Format"),
+            xaxis_opts=opts.AxisOpts(name="Payment Format", axislabel_opts=opts.LabelOpts(rotate=30)),
+            yaxis_opts=opts.AxisOpts(name="Jumlah"),
+            toolbox_opts=opts.ToolboxOpts(),
+        )
+    )
+
+    st.subheader("💳 Jumlah Transaksi per Payment Format")
+    st_pyecharts(payment_bar_chart, key="payment_bar")
+else:
+    st.error("Kolom 'Payment Format' tidak ditemukan dalam dataset.")
