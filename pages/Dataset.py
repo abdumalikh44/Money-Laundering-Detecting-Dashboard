@@ -1,4 +1,3 @@
-import altair as alt
 import pandas as pd
 import streamlit as st
 import gdown
@@ -34,8 +33,8 @@ if "Is Laundering" in df.columns:
         "Filter by 'Is Laundering' label",
         options=sorted(df["Is Laundering"].unique()),
         default=sorted(df["Is Laundering"].unique()),
-        format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
     )
+    # Filter the data based on selected laundering options
     df = df[df["Is Laundering"].isin(laundering_options)]
 
 # Add a date picker to filter by transaction date
@@ -46,20 +45,30 @@ selected_date = st.date_input("Filter by Date", min_value=min_date, max_value=ma
 # Apply the date filter
 df = df[df["Date"] == selected_date]
 
-# Ensure 'Payment Format' column exists before using multiselect
+# === Handle Payment Format ===
 if "Payment Format" in df.columns:
-    Payment = st.multiselect(
-        "Payment Format",
-        df["Payment Format"].unique(),
-        ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"],
-    )
+    # Get the available payment options after filtering the data
+    payment_options = df["Payment Format"].unique()
 
-    # Filter data based on selected payments
-    df = df[df["Payment Format"].isin(Payment)]
-    st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
+    if len(payment_options) > 0:
+        # Set up the multiselect widget with the available payment options
+        Payment = st.multiselect(
+            "Payment Format",
+            payment_options,
+            default=payment_options.tolist(),  # Default is to select all available payment options
+        )
+
+        # Filter data based on selected payment formats
+        if Payment:
+            df = df[df["Payment Format"].isin(Payment)]
+    else:
+        # If there are no payment options available after filtering, show a message
+        st.warning("No available payment formats after applying the selected filters.")
+
+    # Display the filtered data
+    if not df.empty:
+        st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
+    else:
+        st.warning("No data available for the selected filters.")
 else:
     st.error("Column 'Payment Format' not found in the dataset. Please check the dataset structure.")
-
-
-
-
