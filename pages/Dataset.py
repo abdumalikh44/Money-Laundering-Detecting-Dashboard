@@ -38,7 +38,7 @@ selected_date = st.date_input("Filter by Date", min_value=min_date, max_value=ma
 # Apply the date filter
 df = df[df["Date"] == selected_date]
 
-# Ensure 'payment' column exists before using multiselect
+# Ensure 'Payment Format' column exists before using multiselect
 if "Payment Format" in df.columns:
     Payment = st.multiselect(
         "Payment Format",
@@ -47,9 +47,19 @@ if "Payment Format" in df.columns:
     )
 
     # Filter data based on selected payments
-    df_filtered = df[df["Payment Format"].isin(Payment)]
+    df = df[df["Payment Format"].isin(Payment)]
 
-    # Display the data as a table
-    st.dataframe(df_filtered.drop(columns=["Timestamp"]), use_container_width=True)
+# ✅ Add a filter for the "Is Laundering" column
+if "Is Laundering" in df.columns:
+    laundering_options = st.multiselect(
+        "Filter by 'Is Laundering' label",
+        options=sorted(df["Is Laundering"].unique()),
+        default=sorted(df["Is Laundering"].unique()),
+        format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
+    )
+    df = df[df["Is Laundering"].isin(laundering_options)]
 else:
-    st.error("Column 'payment' not found in the dataset. Please check the dataset structure.")
+    st.error("Column 'Is Laundering' not found in the dataset. Please check the dataset structure.")
+
+# Display the filtered data
+st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
