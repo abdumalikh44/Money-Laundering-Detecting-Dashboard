@@ -32,21 +32,6 @@ df_grouped = df.groupby(df["Timestamp"].dt.floor("D"))["Amount Paid"].sum().rese
 dates = df_grouped["Timestamp"].dt.strftime("%Y-%m-%d").tolist()  # Format date as YYYY-MM-DD
 amounts = df_grouped["Amount Paid"].tolist()
 
-# Create a pyecharts line chart
-c = (
-    Line()
-    .add_xaxis(dates)
-    .add_yaxis("Total Amount Paid", amounts)
-    .set_global_opts(
-        title_opts=opts.TitleOpts(title="Daily Transaction Trend"),
-        xaxis_opts=opts.AxisOpts(name="Date"),
-        yaxis_opts=opts.AxisOpts(name="Total Amount Paid"),
-    )
-)
-
-# Display chart in Streamlit
-st_pyecharts(c)
-
 # Count transactions per day and get the top 5 most frequent dates
 top_dates = df["Timestamp"].dt.date.value_counts().head(5).reset_index()
 top_dates.columns = ["Timestamp", "Transaction Count"]
