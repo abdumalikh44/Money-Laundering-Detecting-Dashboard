@@ -48,6 +48,7 @@ if "Payment Format" in df.columns:
 
     # Filter data based on selected payments
     df = df[df["Payment Format"].isin(Payment)]
+    st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
 
 if "Is Laundering" in df.columns:
     laundering_options = st.multiselect(
@@ -60,5 +61,4 @@ if "Is Laundering" in df.columns:
 else:
     st.error("Column 'Is Laundering' not found in the dataset. Please check the dataset structure.")
 
-# Display the filtered data
-st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
+
