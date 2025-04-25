@@ -43,7 +43,7 @@ date_bar_chart = (
     )
 )
 
-st.subheader("📅 Jumlah Transaksi per Hari (Top 5)")
+st.subheader("Jumlah Transaksi")
 st_pyecharts(date_bar_chart, key="bar_chart")
 
 # ===========================
@@ -65,7 +65,7 @@ if "Payment Format" in df.columns:
         )
     )
 
-    st.subheader("💳 Jumlah Transaksi per Payment Format")
+    st.subheader("Jumlah Transaksi per Payment Format")
     st_pyecharts(payment_bar_chart, key="payment_bar")
 else:
     st.error("Kolom 'Payment Format' tidak ditemukan dalam dataset.")
