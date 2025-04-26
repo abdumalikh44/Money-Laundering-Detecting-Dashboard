@@ -74,7 +74,7 @@ else:
 # Chart: Laundering vs Non-Laundering
 # ===========================
 if "Is Laundering" in df.columns:
-    # Map 0/1 to labels first
+    # Map 0 and 1 first
     df["Laundering Label"] = df["Is Laundering"].map({0: "Non-Laundering", 1: "Laundering"})
 
     laundering_counts = df["Laundering Label"].value_counts().reset_index()
