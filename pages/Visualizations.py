@@ -74,7 +74,7 @@ else:
 # Chart: Laundering vs Non-Laundering
 # ===========================
 if "Is Laundering" in df.columns:
-    # Map 0 and 1 first
+    # Map 0/1 to labels first
     df["Laundering Label"] = df["Is Laundering"].map({0: "Non-Laundering", 1: "Laundering"})
 
     laundering_counts = df["Laundering Label"].value_counts().reset_index()
@@ -85,6 +85,8 @@ if "Is Laundering" in df.columns:
 
     laundering_bar_chart = (
         Bar()
+        .add_xaxis(laundering_labels)
+        .add_yaxis("Jumlah", laundering_values, color="#FF6347")
         .set_global_opts(
             toolbox_opts=opts.ToolboxOpts(),
         )
@@ -94,4 +96,3 @@ if "Is Laundering" in df.columns:
     st_pyecharts(laundering_bar_chart, key="laundering_bar")
 else:
     st.error("Kolom 'Is Laundering' tidak ditemukan dalam dataset.")
-
