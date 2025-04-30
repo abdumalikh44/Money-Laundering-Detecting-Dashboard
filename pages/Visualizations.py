@@ -57,13 +57,15 @@ if "Payment Format" in df.columns:
     payment_values = payment_counts["Count"].tolist()
 
     payment_bar_chart = (
-        Bar()
-        .add_xaxis(payment_labels)
-        .add_yaxis("Jumlah Transaksi", payment_values, color="#00BFFF")
-        .set_global_opts(
-            toolbox_opts=opts.ToolboxOpts(),
-        )
+    Bar()
+    .add_xaxis(payment_labels)
+    .add_yaxis("Jumlah Transaksi", payment_values, color="#00BFFF")
+    .reversal_axis()
+    .set_global_opts(
+        toolbox_opts=opts.ToolboxOpts(),
+        yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=0))
     )
+)
 
     st.subheader("Jumlah Transaksi per Payment Format")
     st_pyecharts(payment_bar_chart, key="payment_bar")
@@ -93,7 +95,7 @@ if "Is Laundering" in df.columns:
         )
     )
 
-    st.subheader("🧹 Perbandingan Laundering vs Non-Laundering")
+    st.subheader("Non-Laundering vs Laundering")
     st_pyecharts(laundering_bar_chart, key="laundering_bar")
 else:
     st.error("Kolom 'Is Laundering' tidak ditemukan dalam dataset.")
