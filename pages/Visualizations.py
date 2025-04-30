@@ -5,6 +5,8 @@ from pyecharts.charts import Bar
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
 
+st.write("Jumlah data dengan label Laundering (1):", (df["Is Laundering"] == 1).sum())
+
 # Set up Streamlit page
 st.set_page_config(page_title="AML Dashboard", page_icon="📊")
 st.title("📊 AML Data Visualization")
