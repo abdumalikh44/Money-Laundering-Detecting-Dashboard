@@ -5,8 +5,6 @@ from pyecharts.charts import Bar
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
 
-st.write("Jumlah data dengan label Laundering (1):", (df["Is Laundering"] == 1).sum())
-
 # Set up Streamlit page
 st.set_page_config(page_title="AML Dashboard", page_icon="📊")
 st.title("📊 AML Data Visualization")
@@ -77,6 +75,9 @@ else:
 # ===========================
 if "Is Laundering" in df.columns:
     # Map 0 and 1 first
+
+    st.write("Jumlah data dengan label Laundering (1):", (df["Is Laundering"] == 1).sum())
+
     df["Laundering Label"] = df["Is Laundering"].map({0: "Non-Laundering", 1: "Laundering"})
 
     laundering_counts = df["Laundering Label"].value_counts().reset_index()
