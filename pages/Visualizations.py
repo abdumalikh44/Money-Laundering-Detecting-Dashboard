@@ -59,13 +59,18 @@ if "Payment Format" in df.columns:
     payment_bar_chart = (
     Bar()
     .add_xaxis(payment_labels)
-    .add_yaxis("Jumlah Transaksi", payment_values, color="#00BFFF")
-    .reversal_axis()
+    .add_yaxis(
+        "Jumlah Transaksi",
+        payment_values,
+        color="#00BFFF",
+        label_opts=opts.LabelOpts(is_show=True, position="top")
+    )
     .set_global_opts(
         toolbox_opts=opts.ToolboxOpts(),
-        yaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=0))
+        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
     )
 )
+
 
     st.subheader("Jumlah Transaksi per Payment Format")
     st_pyecharts(payment_bar_chart, key="payment_bar")
