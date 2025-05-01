@@ -23,7 +23,27 @@ def get_txn_data():
     df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
     return df
 
+# --------------------- Is Laundering Filter ---------------------
+def filter_by_laundering(df):
+    if "Is Laundering" in df.columns:
+        laundering_options = st.multiselect(
+            "Filter by 'Is Laundering' label",
+            options=sorted(df["Is Laundering"].dropna().unique()),
+            default=sorted(df["Is Laundering"].dropna().unique()),
+            format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
+        )
+        df = df[df["Is Laundering"].isin(laundering_options)]
+    else:
+        st.warning("No 'Is Laundering' column found in the dataset.")
+    return df
+
 df = get_txn_data()
+
+# ===========================
+# Load and Filter Data
+# ===========================
+df = get_txn_data()
+df = filter_by_laundering(df)  # Apply filter here
 
 # ===========================
 # Chart: Top 5 Most Active Dates
@@ -37,14 +57,14 @@ date_counts = top_dates["Transaction Count"].tolist()
 date_bar_chart = (
     Bar()
     .add_xaxis(date_labels)
-    .add_yaxis("Number of Transactions", date_counts, color="#FFBF00")
+    .add_yaxis("Jumlah Transaksi", date_counts, color="#FFBF00")
     .set_global_opts(
         toolbox_opts=opts.ToolboxOpts(),
         xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
     )
 )
 
-st.subheader("Jumlah Transaksi")
+st.subheader("Jumlah Transaksi per Hari")
 st_pyecharts(date_bar_chart, key="bar_chart")
 
 # ===========================
@@ -71,8 +91,6 @@ if "Payment Format" in df.columns:
         xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
     )
 )
-
-
     st.subheader("Jumlah Transaksi per Payment Format")
     st_pyecharts(payment_bar_chart, key="payment_bar")
 else:
