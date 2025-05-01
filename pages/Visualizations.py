@@ -40,6 +40,7 @@ date_bar_chart = (
     .add_yaxis("Number of Transactions", date_counts, color="#FFBF00")
     .set_global_opts(
         toolbox_opts=opts.ToolboxOpts(),
+        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
     )
 )
 
@@ -97,6 +98,7 @@ if "Is Laundering" in df.columns:
         .add_yaxis("Jumlah", laundering_values, color="#FF6347")
         .set_global_opts(
             toolbox_opts=opts.ToolboxOpts(),
+            xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
         )
     )
 
