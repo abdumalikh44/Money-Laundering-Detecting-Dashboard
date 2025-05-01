@@ -37,8 +37,6 @@ def filter_by_laundering(df):
         st.warning("No 'Is Laundering' column found in the dataset.")
     return df
 
-df = get_txn_data()
-
 # ===========================
 # Load and Filter Data
 # ===========================
