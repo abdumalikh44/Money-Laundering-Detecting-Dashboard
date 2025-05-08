@@ -6,6 +6,7 @@ st.title("Welcome to the interactive dashboard for my final thesis project! 👋
 # Info box with link to GitHub issues
 st.info(
     """
+    Hi!
     Missing a feature or found a bug?  
     [Open a GitHub issue here](https://github.com/abdumalikh44/Money-Laundering-Detecting-Dashboard/issues) 
     """,
