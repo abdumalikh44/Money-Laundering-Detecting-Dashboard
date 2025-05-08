@@ -23,6 +23,17 @@ def get_txn_data():
     df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
     return df
 
+# --------------------- Date Filter ---------------------
+def filter_by_date(df):
+    if "Date" in df.columns:
+        min_date = pd.to_datetime(df["Date"].min()).date()
+        max_date = pd.to_datetime(df["Date"].max()).date()
+        selected_date = st.date_input("Filter by Date", min_value=min_date, max_value=max_date, value=min_date)
+        df = df[df["Date"] == selected_date]
+    else:
+        st.warning("No 'Date' column found in the dataset.")
+    return df
+
 # --------------------- Is Laundering Filter ---------------------
 def filter_by_laundering(df):
     if "Is Laundering" in df.columns:
