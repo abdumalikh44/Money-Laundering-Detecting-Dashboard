@@ -52,8 +52,8 @@ def filter_by_laundering(df):
 # ===========================
 # Load and Filter Data
 # ===========================
-df = filter_by_date(df)  # Call the date filter here
 df = get_txn_data()
+df = filter_by_date(df)  # Call the date filter here
 df = filter_by_laundering(df)  # Apply filter here
 
 # ===========================
