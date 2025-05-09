@@ -20,8 +20,10 @@ def get_txn_data():
     gdown.download(url, output, quiet=False, fuzzy=True)
     df = pd.read_csv(output, nrows=100000)
 
-    # Convert timestamp column to datetime
-    df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors="coerce")
+     # Convert timestamp to datetime
+    if "Timestamp" in df.columns:
+        df["Timestamp"] = pd.to_datetime(df["Timestamp"], errors='coerce')
+        df["Date"] = df["Timestamp"].dt.date
     return df
 
 # --------------------- Date Filter ---------------------
