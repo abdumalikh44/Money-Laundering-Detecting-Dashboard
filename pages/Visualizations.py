@@ -8,6 +8,7 @@ from streamlit_echarts import st_pyecharts
 # Set up Streamlit page
 st.set_page_config(page_title="AML Dashboard", page_icon="📊")
 st.title("📊 AML Data Visualization")
+st.write("[Dataset Visualization for Anti Money Laundering (AML) Detection](https://money-laundering-detection-dashboard.streamlit.app/Dataset)")
 
 # ===========================
 # Load Data with Caching
@@ -51,6 +52,7 @@ def filter_by_laundering(df):
 # ===========================
 # Load and Filter Data
 # ===========================
+df = filter_by_date(df)  # Call the date filter here
 df = get_txn_data()
 df = filter_by_laundering(df)  # Apply filter here
 
