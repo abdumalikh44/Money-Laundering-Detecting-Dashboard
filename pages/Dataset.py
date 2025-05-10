@@ -6,6 +6,7 @@ import gdown
 # --------------------- Setup ---------------------
 st.set_page_config(page_title="AML Dataset", page_icon="💸")
 st.title("💸 AML DATASET")
+st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 
 st.write("""
 This app visualizes data from [IBM Transactions for Anti Money Laundering (AML)](https://www.kaggle.com/datasets/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/data).
