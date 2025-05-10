@@ -7,7 +7,7 @@ from streamlit_echarts import st_pyecharts
 
 # Set up Streamlit page
 st.set_page_config(page_title="AML Data Viz", page_icon="📊")
-st.title("📊 AML DATA VISUALIZATION")
+st.title("📊 Money Laundering Visualization")
 st.page_link("pages/Dataset.py", label="🔍 View Dataset", icon="📂")
 
 # ===========================

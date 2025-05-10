@@ -4,8 +4,8 @@ import altair as alt
 import gdown
 
 # --------------------- Setup ---------------------
-st.set_page_config(page_title="AML Dataset", page_icon="💸")
-st.title("💸 AML DATASET")
+st.set_page_config(page_title="Dataset", page_icon="💸")
+st.title("💸 Transactions Dataset")
 st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 
 st.write("""
