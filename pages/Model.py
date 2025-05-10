@@ -8,7 +8,7 @@ model = joblib.load("lightgbm_pipeline.joblib")
 
 # Streamlit App
 st.set_page_config(page_title="Model", page_icon="🔍")
-st.title("🔍 MONEY LAUNDERING DETECTION DASHBOARD")
+st.title("💸 MONEY LAUNDERING DETECTION DASHBOARD")
 
 st.write("Enter transaction details to detect whether it is suspicious.")
 # Form for transaction input
