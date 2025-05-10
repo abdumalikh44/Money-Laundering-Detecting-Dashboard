@@ -70,7 +70,7 @@ def filter_by_laundering(df):
 df = filter_by_date(df)
 df = filter_by_payment(df)
 df = filter_by_laundering(df)
-
+1
 # --------------------- Display Table ---------------------
 if not df.empty:
     st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
