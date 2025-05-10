@@ -8,10 +8,7 @@ from streamlit_echarts import st_pyecharts
 # Set up Streamlit page
 st.set_page_config(page_title="AML Data Viz", page_icon="📊")
 st.title("📊 AML DATA VISUALIZATION")
-st.markdown(
-    '<p style="font-size:14px; color:gray;">🔗 <a href="https://money-laundering-detection-dashboard.streamlit.app/Dataset" target="_blank">View Dataset Dashboard Page</a></p>',
-    unsafe_allow_html=True
-)
+st.page_link("pages/Dataset.py", label="🔍 View Dataset", icon="📂")
 
 # ===========================
 # Load Data with Caching
