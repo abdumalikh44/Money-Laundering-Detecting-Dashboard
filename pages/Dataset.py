@@ -5,13 +5,13 @@ import gdown
 
 # --------------------- Setup ---------------------
 st.set_page_config(page_title="Dataset", page_icon="💸")
-st.title("💸 Transactions Dataset")
+st.title("💸 Transactions Data")
 st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 
 st.write("""
 This app visualizes data from [IBM Transactions for Anti Money Laundering (AML)](https://www.kaggle.com/datasets/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/data).
 It helps analyze financial transactions to detect potential money laundering activities.
-Use the interactive widgets below to explore patterns and insights!
+Use the interactive widgets below to explore the data!
 """)
 
 # --------------------- Data Loader ---------------------
@@ -70,7 +70,7 @@ def filter_by_laundering(df):
 df = filter_by_date(df)
 df = filter_by_payment(df)
 df = filter_by_laundering(df)
-1
+
 # --------------------- Display Table ---------------------
 if not df.empty:
     st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
