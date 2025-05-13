@@ -2,7 +2,7 @@ import streamlit as st
 
 # Page Title
 st.title("Welcome to the interactive dashboard for my final thesis project! 👋")
-
+st.sidebar.success("Select one of pages above.")
 # Info box with link to GitHub issues
 st.info(
     """
@@ -24,3 +24,5 @@ st.write(
     Use the sidebar to navigate through different sections including the dataset, model evaluation, and visualizations.
     """
 )
+
+
