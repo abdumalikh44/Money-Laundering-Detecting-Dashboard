@@ -11,7 +11,7 @@ st.markdown("Uncover anomalies and potential laundering patterns using AI-powere
 
 # --- Image or Illustration ---
 image_url = "https://raw.githubusercontent.com/abdumalikh44/Money-Laundering-Detecting-Dashboard/main/Dashboard Ilustration.png"
-st.image(image_url, use_column_width=True, caption="Interactive AML Dashboard")
+st.image(image_url, use_container_width=True, caption="Interactive AML Dashboard")
 
 # --- Quick Stats ---
 col1, col2, col3 = st.columns(3)
