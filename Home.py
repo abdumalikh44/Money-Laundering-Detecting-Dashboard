@@ -10,7 +10,7 @@ st.markdown("### 🚨 Real-time Insights into Suspicious Financial Transactions"
 st.markdown("Uncover anomalies and potential laundering patterns using AI-powered analysis on synthetic transaction data.")
 
 # --- Image or Illustration ---
-image_url = "https://raw.githubusercontent.com/abdumalikh44/Money-Laundering-Detecting-Dashboard/main/assets/cover.png"
+image_url = "https://raw.githubusercontent.com/abdumalikh44/Money-Laundering-Detecting-Dashboard/main/Dashboard Ilustration.png"
 st.image(image_url, use_column_width=True, caption="Interactive AML Dashboard")
 
 # --- Quick Stats ---
