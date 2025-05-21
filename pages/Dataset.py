@@ -3,15 +3,15 @@ import pandas as pd
 import altair as alt
 import gdown
 
-# --------------------- Setup ---------------------
+# --------------------- Page Config ---------------------
 st.set_page_config(page_title="Dataset", page_icon="💸")
 st.title("💸 Transactions Data")
 st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 
+# --------------------- Introduction ---------------------
 st.write("""
-This app visualizes data from [IBM Transactions for Anti Money Laundering (AML)](https://www.kaggle.com/datasets/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/data).
-It helps analyze financial transactions to detect potential money laundering activities.
-Use the interactive widgets below to explore the data!
+Explore real-world-inspired synthetic data to uncover hidden money laundering patterns.  
+Use filters to investigate different payment types, dates, and laundering labels. 🕵️‍♂️💸
 """)
 
 # --------------------- Data Loader ---------------------
@@ -30,33 +30,55 @@ def load_data():
 
 df = load_data()
 
-# --------------------- Date Filter ---------------------
+# --------------------- Summary & Metrics ---------------------
+st.subheader("📌 Dataset Summary")
+st.markdown(f"""
+- **Total Records**: {len(df):,}
+- **Date Range**: {df['Date'].min()} to {df['Date'].max()}
+- **Laundering Cases**: {df['Is Laundering'].sum()} out of {len(df)} transactions
+""")
+
+col1, col2, col3 = st.columns(3)
+col1.metric("🔍 Total Records", f"{len(df):,}")
+col2.metric("💰 Laundering Cases", df["Is Laundering"].sum())
+col3.metric("💳 Payment Formats", df["Payment Format"].nunique())
+
+# --------------------- Chart ---------------------
+st.subheader("📊 Laundering vs Non-Laundering Transactions")
+laundering_counts = df["Is Laundering"].value_counts().reset_index()
+laundering_counts.columns = ["Is Laundering", "Count"]
+chart = alt.Chart(laundering_counts).mark_bar().encode(
+    x=alt.X("Is Laundering:N", title="Is Laundering (0 = No, 1 = Yes)"),
+    y=alt.Y("Count:Q"),
+    color=alt.Color("Is Laundering:N", scale=alt.Scale(range=["#1f77b4", "#d62728"]))
+).properties(height=300)
+st.altair_chart(chart, use_container_width=True)
+
+# --------------------- Filters ---------------------
 def filter_by_date(df):
     if "Date" in df.columns:
         min_date = pd.to_datetime(df["Date"].min()).date()
         max_date = pd.to_datetime(df["Date"].max()).date()
-        selected_date = st.date_input("Filter by Date", min_value=min_date, max_value=max_date, value=min_date)
+        selected_date = st.date_input("📅 Filter by Date", min_value=min_date, max_value=max_date, value=min_date)
         df = df[df["Date"] == selected_date]
     else:
         st.warning("No 'Date' column found in the dataset.")
     return df
 
-# --------------------- Payment Format Filter ---------------------
 def filter_by_payment(df):
     if "Payment Format" in df.columns:
         options = df["Payment Format"].dropna().unique()
         default_options = ["ACH", "Bitcoin", "Cheque", "Reinvestment", "Credit Card", "Wire", "Cash"]
-        selected = st.multiselect("Payment Format", options=options, default=[opt for opt in default_options if opt in options])
+        selected = st.multiselect("💳 Payment Format", options=options, default=[opt for opt in default_options if opt in options])
         df = df[df["Payment Format"].isin(selected)]
     else:
         st.warning("No 'Payment Format' column found in the dataset.")
     return df
 
-# --------------------- Is Laundering Filter ---------------------
 def filter_by_laundering(df):
     if "Is Laundering" in df.columns:
         laundering_options = st.multiselect(
-            "Filter by 'Is Laundering' label",
+            "🚨 Filter by 'Is Laundering' label",
             options=sorted(df["Is Laundering"].dropna().unique()),
             default=sorted(df["Is Laundering"].dropna().unique()),
             format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
@@ -71,7 +93,8 @@ df = filter_by_date(df)
 df = filter_by_payment(df)
 df = filter_by_laundering(df)
 
-# --------------------- Display Table ---------------------
+# --------------------- Display Filtered Data ---------------------
+st.subheader("📄 Filtered Transactions")
 if not df.empty:
     st.dataframe(df.drop(columns=["Timestamp"]), use_container_width=True)
 else:
