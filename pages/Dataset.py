@@ -43,17 +43,6 @@ col1.metric("🔍 Total Records", f"{len(df):,}")
 col2.metric("💰 Laundering Cases", df["Is Laundering"].sum())
 col3.metric("💳 Payment Formats", df["Payment Format"].nunique())
 
-# --------------------- Chart ---------------------
-st.subheader("📊 Laundering vs Non-Laundering Transactions")
-laundering_counts = df["Is Laundering"].value_counts().reset_index()
-laundering_counts.columns = ["Is Laundering", "Count"]
-chart = alt.Chart(laundering_counts).mark_bar().encode(
-    x=alt.X("Is Laundering:N", title="Is Laundering (0 = No, 1 = Yes)"),
-    y=alt.Y("Count:Q"),
-    color=alt.Color("Is Laundering:N", scale=alt.Scale(range=["#1f77b4", "#d62728"]))
-).properties(height=300)
-st.altair_chart(chart, use_container_width=True)
-
 # --------------------- Filters ---------------------
 def filter_by_date(df):
     if "Date" in df.columns:
