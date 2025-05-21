@@ -32,9 +32,8 @@ st.markdown("### 🔍 Explore the Dashboard")
 st.write("Use the sidebar to navigate through the following sections:")
 st.markdown("""
 - 📁 Dataset Overview  
+- 📈 Model Predictions
 - 📊 Visualizations  
-- 📈 Model Evaluation  
-- 🧪 Predictions  
 """)
 
 # Optional button-based navigation (if `st.switch_page` or multipage setup is used)
