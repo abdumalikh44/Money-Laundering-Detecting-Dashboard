@@ -100,7 +100,7 @@ if "Payment Format" in df.columns:
         Bar()
         .add_xaxis(payment_labels)
         .add_yaxis(
-            "🧾 Transactions",
+            "Transactions",
             payment_values,
             color="#87CEEB",
             label_opts=opts.LabelOpts(is_show=True, position="top")
