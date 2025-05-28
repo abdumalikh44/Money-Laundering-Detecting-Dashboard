@@ -72,7 +72,7 @@ if "Timestamp" in df.columns:
     date_bar_chart = (
         Bar()
         .add_xaxis(date_labels)
-        .add_yaxis("📊 Number of Transactions", date_counts, color="#FFD700")
+        .add_yaxis("Number of Transactions", date_counts, color="#FFD700")
         .set_global_opts(
             title_opts=opts.TitleOpts(title="Top Transaction Dates"),
             toolbox_opts=opts.ToolboxOpts(),
@@ -87,7 +87,7 @@ else:
 # ===========================
 # Chart 2: Transactions by Payment Format
 # ===========================
-st.subheader("💳 Transaction Volume by Payment Format")
+st.subheader("Transaction Volume by Payment Format")
 
 if "Payment Format" in df.columns:
     payment_counts = df["Payment Format"].value_counts().reset_index()
@@ -131,7 +131,7 @@ if "Is Laundering" in df.columns:
     laundering_bar_chart = (
         Bar()
         .add_xaxis(laundering_labels)
-        .add_yaxis("🔢 Count", laundering_values, color="#FF6347")
+        .add_yaxis("Count", laundering_values, color="#FF6347")
         .set_global_opts(
             title_opts=opts.TitleOpts(title="Laundering Status"),
             toolbox_opts=opts.ToolboxOpts(),
