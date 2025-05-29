@@ -27,8 +27,8 @@ with st.form("transaction_form"):
     with col2:
         account = st.number_input("👤 Account Paid", min_value=0)
         account_1 = st.number_input("👤 Account Sent", min_value=0)
-        amount_received = st.number_input("📥 Amount Received (USD)", min_value=0.01, step=0.01)
-        amount_paid = st.number_input("📤 Amount Paid (USD)", min_value=0.01, step=0.01)
+        amount_received = st.number_input("📥 Amount Received", min_value=0.01, step=0.01)
+        amount_paid = st.number_input("📤 Amount Paid", min_value=0.01, step=0.01)
 
     submitted = st.form_submit_button("🔍 Detect Money Laundering")
 
