@@ -10,7 +10,7 @@ st.set_page_config(page_title="AML Data Viz", page_icon="📊")
 st.title("📊 Money Laundering Transaction Visualizer")
 st.markdown("Gain insight into suspicious financial activity using real-time data filters and interactive charts.")
 
-st.page_link("pages/Dataset.py", label="📂 View Dataset Table")
+st.page_link("pages/Dataset Overview.py", label="📂 View Dataset Table")
 
 # ----------------- Load Dataset with Caching -----------------
 @st.cache_data
