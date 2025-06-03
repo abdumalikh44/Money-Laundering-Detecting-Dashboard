@@ -6,14 +6,13 @@ import gdown
 # --------------------- Page Config ---------------------
 st.set_page_config(page_title="Dataset", page_icon="💸")
 st.title("💸 Transactions Data")
-st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 
 # --------------------- Introduction ---------------------
 st.write("""
 Explore real-world-inspired synthetic data to uncover hidden money laundering patterns.  
 Use filters to investigate different payment types, dates, and laundering labels. 🕵️‍♂️💸
 """)
-
+st.page_link("pages/Visualizations.py", label="🔍 View Visualizations", icon="📊")
 # --------------------- Data Loader ---------------------
 @st.cache_data
 def load_data():
