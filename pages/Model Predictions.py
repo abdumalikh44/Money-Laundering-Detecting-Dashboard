@@ -4,11 +4,8 @@ import pandas as pd
 import datetime
 
 # ----------------- Load Trained Model -----------------
-try:
-    model = joblib.load("lightgbm_pipeline.joblib")
-except Exception as e:
-    st.error(f"Failed to load model: {e}")
-    st.stop()
+
+model = joblib.load("lightgbm_pipeline.joblib")
 
 # ----------------- Page Setup -----------------
 st.set_page_config(page_title="Model", page_icon="🔍")
