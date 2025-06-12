@@ -4,7 +4,11 @@ import pandas as pd
 import datetime
 
 # ----------------- Load Trained Model -----------------
-model = joblib.load("lightgbm_pipeline.joblib")
+try:
+    model = joblib.load("lightgbm_pipeline.joblib")
+except Exception as e:
+    st.error(f"Failed to load model: {e}")
+    st.stop()
 
 # ----------------- Page Setup -----------------
 st.set_page_config(page_title="Model", page_icon="🔍")
@@ -71,7 +75,11 @@ if submitted:
         })
 
         # Predict using the loaded model
-        prediction = model.predict(input_data)
+        try:
+            prediction = model.predict(input_data)
+        except Exception as e:
+            st.error(f"Prediction failed: {e}")
+            st.stop()
 
         # ----------------- Display Prediction Result -----------------
         st.subheader("📊 Prediction Result")
