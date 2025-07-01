@@ -43,7 +43,7 @@ def filter_by_laundering(df):
             "🔍 Filter by Laundering Label",
             options=sorted(df["Is Laundering"].dropna().unique()),
             default=sorted(df["Is Laundering"].dropna().unique()),
-            format_func=lambda x: "🟥 Laundering (1)" if x == 1 else "🟩 Not Laundering (0)"
+            format_func=lambda x: "Laundering (1)" if x == 1 else "Not Laundering (0)"
         )
         df = df[df["Is Laundering"].isin(laundering_options)]
     else:
@@ -89,40 +89,31 @@ else:
 # ===========================
 st.subheader("Transaction Volume by Payment Format")
 
-color_palette = [
-"#87CEEB", "#FFA07A", "#90EE90", "#FFD700",
-"#FF69B4", "#9370DB", "#00CED1", "#FFB6C1"
-]
-
 if "Payment Format" in df.columns:
     payment_counts = df["Payment Format"].value_counts().reset_index()
     payment_counts.columns = ["Payment Format", "Count"]
+
     payment_labels = payment_counts["Payment Format"].tolist()
     payment_values = payment_counts["Count"].tolist()
 
-    bar = Bar()
-    bar.add_xaxis(payment_labels)
-
-    for i, (label, value) in enumerate(zip(payment_labels, payment_values)):
-        bar.add_yaxis(
-            label,
-            [value],
-            color=color_palette[i % len(color_palette)],
+    payment_bar_chart = (
+        Bar()
+        .add_xaxis(payment_labels)
+        .add_yaxis(
+            "Transactions",
+            payment_values,
+            color="#87CEEB",
             label_opts=opts.LabelOpts(is_show=True, position="top")
         )
-
-    bar.set_global_opts(
-        title_opts=opts.TitleOpts(title="Transactions by Payment Format"),
-        toolbox_opts=opts.ToolboxOpts(),
-        legend_opts=opts.LegendOpts(is_show=False),
-        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45)),
-        yaxis_opts=opts.AxisOpts(name="Count")
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title="By Payment Format"),
+            toolbox_opts=opts.ToolboxOpts(),
+            xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
+        )
     )
-
-    st_pyecharts(bar, key="payment_bar")
-
+    st_pyecharts(payment_bar_chart, key="payment_bar")
 else:
-    st.warning("⚠️ 'Payment Format' column not found.")
+    st.warning("⚠️ 'Payment Format' column missing.")
 
 # ===========================
 # Chart 3: Laundering Distribution
@@ -150,3 +141,4 @@ if "Is Laundering" in df.columns:
     st_pyecharts(laundering_bar_chart, key="laundering_bar")
 else:
     st.warning("⚠️ 'Is Laundering' column not found.")
+
