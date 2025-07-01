@@ -89,33 +89,40 @@ else:
 # ===========================
 st.subheader("Transaction Volume by Payment Format")
 
-payment_labels = payment_counts["Payment Format"].tolist()
-payment_values = payment_counts["Count"].tolist()
+color_palette = [
+"#87CEEB", "#FFA07A", "#90EE90", "#FFD700",
+"#FF69B4", "#9370DB", "#00CED1", "#FFB6C1"
+]
 
-bar = Bar()
+if "Payment Format" in df.columns:
+    payment_counts = df["Payment Format"].value_counts().reset_index()
+    payment_counts.columns = ["Payment Format", "Count"]
+    payment_labels = payment_counts["Payment Format"].tolist()
+    payment_values = payment_counts["Count"].tolist()
 
-bar.add_xaxis(payment_labels)
+    bar = Bar()
+    bar.add_xaxis(payment_labels)
 
-# Add each payment format as a separate y-axis series with its own color
-for i, (label, value) in enumerate(zip(payment_labels, payment_values)):
-    color = color_palette[i % len(color_palette)]  # safely wrap around if more labels than colors
-    bar.add_yaxis(
-        label,
-        [value],
-        color=color,
-        label_opts=opts.LabelOpts(is_show=True, position="top")
+    for i, (label, value) in enumerate(zip(payment_labels, payment_values)):
+        bar.add_yaxis(
+            label,
+            [value],
+            color=color_palette[i % len(color_palette)],
+            label_opts=opts.LabelOpts(is_show=True, position="top")
+        )
+
+    bar.set_global_opts(
+        title_opts=opts.TitleOpts(title="Transactions by Payment Format"),
+        toolbox_opts=opts.ToolboxOpts(),
+        legend_opts=opts.LegendOpts(is_show=False),
+        xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45)),
+        yaxis_opts=opts.AxisOpts(name="Count")
     )
 
-bar.set_global_opts(
-    title_opts=opts.TitleOpts(title="Transactions by Payment Format"),
-    toolbox_opts=opts.ToolboxOpts(),
-    legend_opts=opts.LegendOpts(is_show=False),
-    xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45)),
-    yaxis_opts=opts.AxisOpts(name="Count")
-)
+    st_pyecharts(bar, key="payment_bar")
 
-st_pyecharts(bar, key="payment_bar")
-
+else:
+    st.warning("⚠️ 'Payment Format' column not found.")
 
 # ===========================
 # Chart 3: Laundering Distribution
