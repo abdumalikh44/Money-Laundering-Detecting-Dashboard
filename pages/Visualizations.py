@@ -89,31 +89,33 @@ else:
 # ===========================
 st.subheader("Transaction Volume by Payment Format")
 
-if "Payment Format" in df.columns:
-    payment_counts = df["Payment Format"].value_counts().reset_index()
-    payment_counts.columns = ["Payment Format", "Count"]
+payment_labels = payment_counts["Payment Format"].tolist()
+payment_values = payment_counts["Count"].tolist()
 
-    payment_labels = payment_counts["Payment Format"].tolist()
-    payment_values = payment_counts["Count"].tolist()
+bar = Bar()
 
-    payment_bar_chart = (
-        Bar()
-        .add_xaxis(payment_labels)
-        .add_yaxis(
-            "Transactions",
-            payment_values,
-            color="#87CEEB",
-            label_opts=opts.LabelOpts(is_show=True, position="top")
-        )
-        .set_global_opts(
-            title_opts=opts.TitleOpts(title="By Payment Format"),
-            toolbox_opts=opts.ToolboxOpts(),
-            xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45))
-        )
+bar.add_xaxis(payment_labels)
+
+# Add each payment format as a separate y-axis series with its own color
+for i, (label, value) in enumerate(zip(payment_labels, payment_values)):
+    color = color_palette[i % len(color_palette)]  # safely wrap around if more labels than colors
+    bar.add_yaxis(
+        label,
+        [value],
+        color=color,
+        label_opts=opts.LabelOpts(is_show=True, position="top")
     )
-    st_pyecharts(payment_bar_chart, key="payment_bar")
-else:
-    st.warning("⚠️ 'Payment Format' column missing.")
+
+bar.set_global_opts(
+    title_opts=opts.TitleOpts(title="Transactions by Payment Format"),
+    toolbox_opts=opts.ToolboxOpts(),
+    legend_opts=opts.LegendOpts(is_show=False),
+    xaxis_opts=opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45)),
+    yaxis_opts=opts.AxisOpts(name="Count")
+)
+
+st_pyecharts(bar, key="payment_bar")
+
 
 # ===========================
 # Chart 3: Laundering Distribution
@@ -121,7 +123,7 @@ else:
 st.subheader("🚨 Laundering vs Non-Laundering Distribution")
 
 if "Is Laundering" in df.columns:
-    df["Laundering Label"] = df["Is Laundering"].map({0: "🟩 Non-Laundering", 1: "🟥 Laundering"})
+    df["Laundering Label"] = df["Is Laundering"].map({0: "Non-Laundering", 1: "Laundering"})
     laundering_counts = df["Laundering Label"].value_counts().reset_index()
     laundering_counts.columns = ["Laundering Label", "Count"]
 
