@@ -60,7 +60,7 @@ st.divider()
 # ===========================
 # Chart 1: Top Transaction Days
 # ===========================
-st.subheader("📈 Top 5 Days with Highest Transactions")
+st.subheader("📈 Top Days with Highest Transactions")
 
 if "Timestamp" in df.columns:
     top_dates = df["Timestamp"].dt.date.value_counts().head(5).reset_index()
