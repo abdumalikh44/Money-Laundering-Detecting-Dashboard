@@ -30,20 +30,22 @@ def filter_by_date(df):
     if "Date" in df.columns:
         min_date = df["Date"].min()
         max_date = df["Date"].max()
+        default_date = min_date
 
         selected_date = st.date_input(
             "📅 Filter by Transaction Date",
             min_value=min_date,
             max_value=max_date,
-            value=min_date
+            value=default_date
         )
 
-        df = df[df["Date"] == selected_date]  # langsung filter tanpa kondisi
+        # Filter hanya aktif jika user memilih tanggal yang berbeda dari default
+        if selected_date != default_date:
+            df = df[df["Date"] == selected_date]
 
     else:
         st.warning("⚠️ Column 'Date' not found.")
     return df
-
 
 # ----------------- Filter by Laundering Label -----------------
 def filter_by_laundering(df):
