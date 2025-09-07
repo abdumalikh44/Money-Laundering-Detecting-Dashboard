@@ -26,8 +26,8 @@ with st.form("transaction_form"):
         payment_format = st.selectbox("💳 Payment Format", ["ACH", "Credit Card", "Cheque", "Reinvestment", "Cash"])
 
     with col2:
-        account = st.number_input("👤 Account Paid", min_value=0)
-        account_1 = st.number_input("👤 Account Sent", min_value=0)
+        account = st.text_input("👤 Account Paid", min_value=0)
+        account_1 = st.text_input("👤 Account Sent", min_value=0)
         amount_received = st.number_input("📥 Amount Received", min_value=0.01, step=0.01)
         amount_paid = st.number_input("📤 Amount Paid", min_value=0.01, step=0.01)
 
