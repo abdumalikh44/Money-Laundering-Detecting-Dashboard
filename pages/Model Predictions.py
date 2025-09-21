@@ -108,6 +108,17 @@ else:
             if not all(col in data.columns for col in required_cols):
                 st.error(f"Uploaded file must contain the following columns:\n{required_cols}")
             else:
+                # Cast types agar sama dengan Single Transaction
+                data = data.astype({
+                    "From Bank": str,
+                    "To Bank": str,
+                    "Account": str,
+                    "Account.1": str,
+                    "Amount Received": float,
+                    "Amount Paid": float,
+                    "Date": str
+                })
+
                 predictions = model.predict(data)
 
                 # Append predictions to dataframe
