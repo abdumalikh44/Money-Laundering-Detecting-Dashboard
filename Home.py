@@ -17,7 +17,7 @@ st.image(image_url, use_container_width=True, caption="Interactive AML Dashboard
 col1, col2, col3 = st.columns(3)
 col1.metric("📄 Records", "1,500,000")
 col2.metric("🧠 Model Used", "LightGBM")
-col3.metric("✅ Accuracy", "89.0%")
+col3.metric("✅ Accuracy", "91.0%")
 
 # --- Project Overview Expander ---
 with st.expander("ℹ️ About This Project"):
